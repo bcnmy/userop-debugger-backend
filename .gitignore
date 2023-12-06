@@ -1,0 +1,14 @@
+# Package dependencies
+node_modules
+
+# Local env variables
+.env*
+
+# Yarn
+yarn-*
+
+# Output folder
+dist
+
+# System properties
+.DS_Store
