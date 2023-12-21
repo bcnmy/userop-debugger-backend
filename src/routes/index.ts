@@ -5,7 +5,7 @@ import Router from 'koa-router';
 const router = new Router();
 
 export const registerRoutes = (app: Koa) => {
-    router.post('/request', debugUserOpRequest.middleware);
+    router.get('/request', debugUserOpRequest.middleware);
     app.use(router.routes());
     return app;
 }

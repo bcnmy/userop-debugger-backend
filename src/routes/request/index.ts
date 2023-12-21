@@ -1,4 +1,6 @@
 import bodyParser from 'koa-bodyparser';
+import debugUserOp from '../../controller/DebugUserOpController';
+
 const Jsonrpc = require('@koalex/koa-json-rpc');
 
 export const debugUserOpRequest = new Jsonrpc({
@@ -10,11 +12,13 @@ export const debugUserOpRequest = new Jsonrpc({
     })
 });
 
-debugUserOpRequest.method("eth_debugUserOperation", (ctx: any, next: Function) => {
-    ctx.body = "OK";
+debugUserOpRequest.method("eth_debugUserOperation", async (ctx: any) => {
+    const params = ctx.request.body.params;
+    let result = await debugUserOp.handleParams(params);
+    ctx.body = result;
     ctx.status = 200;
-
-    next();
 });
+
+// Add other rpc methods here as mentioned above
 
 export default debugUserOpRequest;
