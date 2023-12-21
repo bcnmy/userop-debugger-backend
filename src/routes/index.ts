@@ -1,9 +1,11 @@
 import Koa from 'koa';
-import userOp from './userop';
+import debugUserOpRequest from './request';
+import Router from 'koa-router';
+
+const router = new Router();
 
 export const registerRoutes = (app: Koa) => {
-    app.use(userOp.middleware());
+    router.post('/request', debugUserOpRequest.middleware);
+    app.use(router.routes());
     return app;
 }
-
-export default [userOp]

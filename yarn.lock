@@ -39,13 +39,6 @@
     "@jridgewell/resolve-uri" "^3.0.3"
     "@jridgewell/sourcemap-codec" "^1.4.10"
 
-"@koa/cors@^4.0.0":
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/@koa/cors/-/cors-4.0.0.tgz#b2d300d7368d2e0ad6faa1d918eff6d0cde0859a"
-  integrity sha512-Y4RrbvGTlAaa04DBoPBWJqDR5gPj32OOz827ULXfgB1F7piD1MB/zwn8JR2LAnvdILhxUbXbkXGWuNVsFuVFCQ==
-  dependencies:
-    vary "^1.1.2"
-
 "@koa/router@^10.0.0":
   version "10.1.1"
   resolved "https://registry.yarnpkg.com/@koa/router/-/router-10.1.1.tgz#8e5a85c9b243e0bc776802c0de564561e57a5f78"
@@ -56,6 +49,14 @@
     koa-compose "^4.1.0"
     methods "^1.1.2"
     path-to-regexp "^6.1.0"
+
+"@koalex/koa-json-rpc@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@koalex/koa-json-rpc/-/koa-json-rpc-1.0.3.tgz#77dfe691a08b2b570d6c8b5de487be1d34fa1338"
+  integrity sha512-QbM3eVVI7TufBtqo7gUZoW02YeHj/+QDeK407KlXmHrPm6P9ZHbZbKySFwV54D2YZ5Zt10pscQWoCo/loGnzog==
+  dependencies:
+    debug "^4.1.1"
+    koa-compose "^4.1.0"
 
 "@sideway/address@^4.1.3":
   version "4.1.4"
@@ -214,13 +215,6 @@
   dependencies:
     "@types/koa" "*"
 
-"@types/koa2-cors@^2.0.5":
-  version "2.0.5"
-  resolved "https://registry.yarnpkg.com/@types/koa2-cors/-/koa2-cors-2.0.5.tgz#7e83838b623c0a7dbe8862308ff0452a0a407233"
-  integrity sha512-MrZ8NpnkPYQqTRy2Llflt2f2sLTQTSy5fAOa2YTxUu6UJZXdsY6cszpzuB9EhkAFXJL1D8kEEHGq4Q7rU+jEAg==
-  dependencies:
-    "@types/koa" "*"
-
 "@types/koa@*", "@types/koa@^2.13.12":
   version "2.13.12"
   resolved "https://registry.yarnpkg.com/@types/koa/-/koa-2.13.12.tgz#70d87a9061a81909e0ee11ca50168416e8d3e795"
@@ -234,13 +228,6 @@
     "@types/keygrip" "*"
     "@types/koa-compose" "*"
     "@types/node" "*"
-
-"@types/koa__cors@^4.0.3":
-  version "4.0.3"
-  resolved "https://registry.yarnpkg.com/@types/koa__cors/-/koa__cors-4.0.3.tgz#048fa1d523a27ff448c071416e774fac1bf43aab"
-  integrity sha512-zj+1sQO/6GGRGINRXlMmoiFwHibKVcjNGdh+p2SpqHDMLyvC+ce0LMHX6UBi1rdpnPZ/+osUwWdGKF945ffrzA==
-  dependencies:
-    "@types/koa" "*"
 
 "@types/mime@*":
   version "3.0.4"
@@ -808,11 +795,6 @@ koa-router@^12.0.1:
     koa-compose "^4.1.0"
     methods "^1.1.2"
     path-to-regexp "^6.2.1"
-
-koa2-cors@^2.0.6:
-  version "2.0.6"
-  resolved "https://registry.yarnpkg.com/koa2-cors/-/koa2-cors-2.0.6.tgz#9ad23df3a0b9bb84530b46f5944f3fb576086554"
-  integrity sha512-JRCcSM4lamM+8kvKGDKlesYk2ASrmSTczDtGUnIadqMgnHU4Ct5Gw7Bxt3w3m6d6dy3WN0PU4oMP43HbddDEWg==
 
 koa@^2.14.2:
   version "2.14.2"
