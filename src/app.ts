@@ -1,6 +1,5 @@
 import Koa from "koa";
 import helmet from 'koa-helmet';
-import cors from '@koa/cors';
 import bodyParser from 'koa-bodyparser';
 import { registerRoutes, } from "./routes";
 import setRequestId from "./middlewares/request-id.middleware";
@@ -11,7 +10,6 @@ export const createApp = async () => {
     const app = new Koa();
 
     app.use(helmet());
-    app.use(cors());
     app.use(bodyParser());
     registerRoutes(app);
     app.use(setRequestId);
