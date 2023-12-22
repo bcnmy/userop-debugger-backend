@@ -1,4 +1,5 @@
 import { UserOperation, SmartAccountInfo, IntentInfo } from "../../types";
+import { SmartAccountDecoderFactory } from "./factory";
 import { ISmartAccountDecoder } from "./interface/ISmartAccountDecoder";
 
 export type SmartAccountDecoderConfig = {
@@ -13,8 +14,10 @@ export class SmartAccountDecoderService implements ISmartAccountDecoder {
     }
 
     async decodeSmartAccount(userOp: UserOperation): Promise<SmartAccountInfo> {
-        console.log(userOp);
-        // Use SmartAccountDecoder factory to get correct implementation of SmartAccountDecoder then 
+        let smartAccountDecoder = await SmartAccountDecoderFactory.getSmartAccountDecoder(this.networkId, userOp);
+        if(smartAccountDecoder) {
+            console.log("SmartAccountDecoder found");
+        }
         // call decodeSmartAccount method on it
         throw new Error("Method not implemented.");
     }
