@@ -1,18 +1,7 @@
-import bodyParser from 'koa-bodyparser';
 import debugUserOp from '../../controller/DebugUserOpController';
+import { jsonRPCRouter } from '../../config/router';
 
-const Jsonrpc = require('@koalex/koa-json-rpc');
-
-export const debugUserOpRequest = new Jsonrpc({
-    bodyParser: bodyParser({
-        onerror: (_, ctx) => {
-            ctx.status = 200;
-            ctx.body = Jsonrpc.parseError;
-        }
-    })
-});
-
-debugUserOpRequest.method("eth_debugUserOperation", async (ctx: any) => {
+jsonRPCRouter.method("eth_debugUserOperation", async (ctx: any) => {
     const params = ctx.request.body.params;
     const networkId = ctx.params.networkId;
     let result = await debugUserOp.handleParams(networkId, params);
@@ -22,4 +11,4 @@ debugUserOpRequest.method("eth_debugUserOperation", async (ctx: any) => {
 
 // Add other rpc methods here as mentioned above
 
-export default debugUserOpRequest;
+export default jsonRPCRouter;
