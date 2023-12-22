@@ -14,7 +14,8 @@ export const debugUserOpRequest = new Jsonrpc({
 
 debugUserOpRequest.method("eth_debugUserOperation", async (ctx: any) => {
     const params = ctx.request.body.params;
-    let result = await debugUserOp.handleParams(params);
+    const networkId = ctx.params.networkId;
+    let result = await debugUserOp.handleParams(networkId, params);
     ctx.body = result;
     ctx.status = 200;
 });

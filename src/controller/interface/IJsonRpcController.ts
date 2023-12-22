@@ -1,3 +1,3 @@
 export interface IJsonRpcController {
-    handleParams(params: any[]): Promise<any>;
+    handleParams(networkId: string, params: any[]): Promise<any>;
 }
