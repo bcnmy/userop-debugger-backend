@@ -29,7 +29,6 @@ supportedNetworks.forEach((networkId: string) => {
         // Add Biconomy Resolver for Biconomy SA v2
         smartAccountResolverMap.get(networkId)?.push(new BiconomyResolver({
             networkId,
-            uri: _networkConfig.BICONOMY[BiconomySAVersion.v2].subgraphUri,
             version: BiconomySAVersion.v2
         }));
     } else {
@@ -41,6 +40,6 @@ export function getUserOpDecoderService(networkId: string): IUserOpDecoder | und
     return userOpDecoderMap.get(networkId);
 }
 
-export function getSmartAccountResolver(networkId: string): ISmartAccountResolver[] | undefined {
+export function getSmartAccountResolvers(networkId: string): ISmartAccountResolver[] | undefined {
     return smartAccountResolverMap.get(networkId);
 }

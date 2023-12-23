@@ -1,8 +1,15 @@
-import { getSmartAccountResolver } from "../../../manager/service-manager";
+import { getSmartAccountResolvers } from "../../../manager/service-manager";
 import { UserOperation } from "../../../types";
 import { ISmartAccountDecoder } from "../interface/ISmartAccountDecoder";
 import { ISmartAccountResolver } from "../interface/ISmartAccountResolver";
 
+/**
+ * SmartAccountDecoderFactory is responsible for returning the correct Smart Account Decoder for a given 
+ * user operation and network id.
+ * It gets all registered Smart Account resolvers from the config and runs them in parallel to find the
+ * correct Smart Account Decoder.
+ * Only one of the Smart Account resolvers should resolve to a Smart Account Decoder.
+ */
 export class SmartAccountDecoderFactory {
 
     /**
@@ -13,7 +20,7 @@ export class SmartAccountDecoderFactory {
     static async getSmartAccountDecoder(networkId: string, userOp: UserOperation): Promise<ISmartAccountDecoder> {
 
         // Get smart account resolver map from config
-        let saResolverArray = getSmartAccountResolver(networkId);
+        let saResolverArray = getSmartAccountResolvers(networkId);
         if(!saResolverArray) {
             throw new Error(`No smart account resolver found for networkId: ${networkId}`);
         }

@@ -26,6 +26,7 @@ export class UserOpDecoderService implements IUserOpDecoder {
 
     async decodeUserOp(param: DecodeUserOpParam): Promise<DecodedUserOp> {
         let smartAccountInfo = await this.smartAccountDecoder.decodeSmartAccount(param.userOp);
+        console.log("SmartAccountInfo ", smartAccountInfo);
         let intentInfo = await this.smartAccountDecoder.decodeIntent(param.userOp);
         let paymasterInfo = await this.paymasterDecoder.decodePaymaster(param.userOp);
 
