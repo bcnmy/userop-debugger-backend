@@ -40,7 +40,7 @@ export class BiconomySAV2 implements ISmartAccount {
             data: userOp.callData as Hex
         });
         let targetContracts: TargetContract[] = [];
-        let isExecute = this.isExeute(functionName, args);
+        let isExecute = this._isExeute(functionName, args);
 
         if (args && isExecute) {
             // Handle single execution
@@ -51,7 +51,7 @@ export class BiconomySAV2 implements ISmartAccount {
                 name: "", // TODO: Populate based on your application logic
                 action: {} // TODO: Populate based on your application logic
             });
-        } else if (args && this.isExecuteBatch(functionName, args)) {
+        } else if (args && this._isExecuteBatch(functionName, args)) {
             // Handle batch execution
             let dests: string[] = args[0] as string[];
             let values: string[] = args[1] as string[];
@@ -121,14 +121,14 @@ export class BiconomySAV2 implements ISmartAccount {
 
     // Private Methods
 
-    private isExeute(functionName: string, args: readonly unknown[] | undefined): boolean {
+    private _isExeute(functionName: string, args: readonly unknown[] | undefined): boolean {
         if(args && args.length == 3) {
             return (functionName === 'execute' || functionName === 'execute_ncC');
         }
         throw new Error("Invalid args provided");
     }
 
-    private isExecuteBatch(functionName: string, args: readonly unknown[]): boolean {
+    private _isExecuteBatch(functionName: string, args: readonly unknown[]): boolean {
         if(args && args.length == 3) {
             return (functionName === 'executeBatch' || functionName === 'executeBatch_y6U');
         }
