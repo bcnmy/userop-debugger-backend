@@ -7,3 +7,17 @@ export function isPaymasterUsed(userOp: UserOperation): boolean {
     return true;
 }
 
+//TODO: Also check if userOp.callData is not empty
+export function isFirstTransaction(userOp: UserOperation): boolean {
+    if(userOp.initCode == "0x") {
+        return false;
+    }
+    return true;
+}
+
+export function isDeploymentTransaction(userOp: UserOperation): boolean {
+    if(userOp.initCode == "0x") {
+        return false;
+    }
+    return true;
+}

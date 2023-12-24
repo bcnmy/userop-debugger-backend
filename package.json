@@ -14,7 +14,9 @@
     "author": "iamonuwa",
     "license": "MIT",
     "dependencies": {
+        "@apollo/client": "^3.8.8",
         "@koalex/koa-json-rpc": "^1.0.3",
+        "graphql": "^16.8.1",
         "koa": "^2.14.2",
         "koa-bodyparser": "^4.4.1",
         "koa-helmet": "^7.0.2",
