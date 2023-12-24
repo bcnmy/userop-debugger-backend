@@ -5,6 +5,7 @@ import { BiconomySAVersion, SmartAccountInfo, SmartAccountProvider, UserOperatio
 import { isDeploymentTransaction, isFirstTransaction } from "../../../utils";
 import { ModuleFactory } from "../../modules/factory";
 import { ISmartAccount } from "../interface";
+import { Hex, decodeAbiParameters } from 'viem'
 
 export type BiconomySAV2Config = {
     networkId: string;
@@ -57,13 +58,39 @@ export class BiconomySAV2 implements ISmartAccount {
             // Get the moudle implementation from MoudleFactory
             let module = ModuleFactory.getModule(this.networkId, accountInfo.initialAuthModule.toLowerCase());
             smartAccountInfo.moduleUsedInDeployment = await module?.getModuleInfo(userOp);
-            console.log("Module found with name:", module?.getName());
+            console.log("Auth Module during deployment found with name:", module?.getName());
         }
-        console.log(accountInfo);
+        let validationModuleAddress = await this._getValidationModuleAddress(userOp);
+        if(validationModuleAddress) {
+            let module = ModuleFactory.getModule(this.networkId, validationModuleAddress.toLowerCase());
+            smartAccountInfo.moduleUsedInValidation = await module?.getModuleInfo(userOp);
+            console.log("Validation Module found with name:", module?.getName());
+        }
         return smartAccountInfo;
     }
 
     // Private Methods
+
+    private async _getValidationModuleAddress(userOp: UserOperation): Promise<string | null> {
+        try {
+            if (!userOp.signature || userOp.signature === '0x') {
+                throw new Error('No signature found in UserOperation');
+            }
+
+            // Assuming the signature format is [bytes, address] as in Solidity
+            const decoded = decodeAbiParameters(
+                [
+                    { name: 'signature', type: 'bytes' },
+                    { name: 'validationModule', type: 'address' }
+                ],
+                userOp.signature as Hex
+            );
+            return decoded[1];
+        } catch (error) {
+            console.debug("Error in getValidationModuleAddress:", error);
+            return null;
+        }
+    }
 
     private _getSubGraphUri(): string {
         return networkConfig[this.networkId].BICONOMY[this.version].subgraphUri;
