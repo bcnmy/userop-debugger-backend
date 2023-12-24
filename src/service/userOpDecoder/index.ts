@@ -25,33 +25,39 @@ export class UserOpDecoderService implements IUserOpDecoder {
     }
 
     async decodeUserOp(param: DecodeUserOpParam): Promise<DecodedUserOp> {
-        let smartAccountInfo = await this.smartAccountDecoder.decodeSmartAccount(param.userOp);
-        console.log("SmartAccountInfo ", smartAccountInfo);
-        let intentInfo = await this.smartAccountDecoder.decodeIntent(param.userOp);
-        let paymasterInfo = await this.paymasterDecoder.decodePaymaster(param.userOp);
-
-        let entryPointService = EntryPointFactory.getEntryPointService(param.entryPointAddress.toLowerCase());
-        let requiredPreFund = entryPointService.getRequiredPreFund(param.userOp);
-        let symbol = networkConfig[this.networkId].nativeSymbol;
-        let maxTransactionFee = `${formatEther(requiredPreFund)} ${symbol}`;
-        
-        let gasPaidBy: Actors;
-        if(isPaymasterUsed(param.userOp)) {
-            gasPaidBy = Actors.PAYMASTER;
-        } else {
-            gasPaidBy = Actors.SMART_ACCOUNT
+        try {
+            let smartAccountInfo = await this.smartAccountDecoder.decodeSmartAccount(param.userOp);
+            console.log("SmartAccountInfo ", smartAccountInfo);
+            let intentInfo = await this.smartAccountDecoder.decodeIntent(param.userOp);
+            console.log("IntentInfo ", intentInfo);
+            let paymasterInfo = await this.paymasterDecoder.decodePaymaster(param.userOp);
+    
+            let entryPointService = EntryPointFactory.getEntryPointService(param.entryPointAddress.toLowerCase());
+            let requiredPreFund = entryPointService.getRequiredPreFund(param.userOp);
+            let symbol = networkConfig[this.networkId].nativeSymbol;
+            let maxTransactionFee = `${formatEther(requiredPreFund)} ${symbol}`;
+            
+            let gasPaidBy: Actors;
+            if(isPaymasterUsed(param.userOp)) {
+                gasPaidBy = Actors.PAYMASTER;
+            } else {
+                gasPaidBy = Actors.SMART_ACCOUNT
+            }
+            
+            console.log("MaxTransactionFee ", maxTransactionFee);
+            console.log("GasPaidBy ", gasPaidBy);
+            // Use SmartAccountDecoder and Paymaster Decoder instances to decodeUserOp
+            return {
+                smartAccount: smartAccountInfo,
+                intent: intentInfo,
+                paymaster: paymasterInfo,
+                maxTransactionFee,
+                gasPaidBy,
+            }
+        } catch(e) {
+            console.log(e);
         }
-        
-        console.log("MaxTransactionFee ", maxTransactionFee);
-        console.log("GasPaidBy ", gasPaidBy);
-        // Use SmartAccountDecoder and Paymaster Decoder instances to decodeUserOp
-        return {
-            smartAccount: smartAccountInfo,
-            intent: intentInfo,
-            paymaster: paymasterInfo,
-            maxTransactionFee,
-            gasPaidBy,
-        }
+        throw new Error("Unable to decode user operation");
     }
     
 }

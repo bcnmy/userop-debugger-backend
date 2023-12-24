@@ -1,4 +1,4 @@
-import { SmartAccountInfo, UserOperation } from "../../../types";
+import { IntentInfo, SmartAccountInfo, UserOperation } from "../../../types";
 
 /**
  * ISmartAccount is the interface for Smart Account. Each provider's SmartAccount must implement this interface
@@ -18,4 +18,11 @@ export interface ISmartAccount {
      * @param userOp UserOperation object
      */
     getSmartAccountInfo(userOp: UserOperation): Promise<SmartAccountInfo>
+
+    /**
+     * This method decodes the user operation and returns the intent information.
+     * Intent is related to the target contract and the execution type.
+     * @param userOp UserOperation object
+     */
+    getIntentInfo(userOp: UserOperation): Promise<IntentInfo>
 }
