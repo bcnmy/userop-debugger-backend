@@ -1,4 +1,4 @@
-import { networkConfig } from "../../../config";
+import { networkConfig } from "../../../config/network";
 import { SubGraphClient } from "../../../service/subgraph";
 import { SubGraphClientFactory } from "../../../service/subgraph/factory";
 import { BiconomySAVersion, ExecutionType, IntentInfo, SmartAccountInfo, SmartAccountProvider, TargetContract, UserOperation } from "../../../types";
@@ -45,9 +45,9 @@ export class BiconomySAV2 implements ISmartAccount {
         if (args && isExecute) {
             // Handle single execution
             targetContracts.push({
-                address: args[0] as string,
-                value: args[1] as string,
-                callData: args[2] as string,
+                address: `${args[0]}`,
+                value: `${args[1]}`,
+                callData: `${args[2]}`,
                 name: "", // TODO: Populate based on your application logic
                 action: {} // TODO: Populate based on your application logic
             });
@@ -59,7 +59,7 @@ export class BiconomySAV2 implements ISmartAccount {
             dests.forEach((dest, index) => {
                 targetContracts.push({
                     address: dest,
-                    value: values[index],
+                    value: values[index].toString(),
                     callData: funcs[index],
                     name: "", // TODO: Populate based on your application logic
                     action: {} // TODO: Populate based on your application logic

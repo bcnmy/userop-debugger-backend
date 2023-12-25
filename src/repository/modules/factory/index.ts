@@ -1,4 +1,4 @@
-import { networkConfig } from "../../../config";
+import { networkConfig } from "../../../config/network";
 import { ModuleConstructor } from "../../../types";
 import { IModule } from "../interface";
 
