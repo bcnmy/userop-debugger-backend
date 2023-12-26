@@ -4,11 +4,11 @@ import { EntryPointFactory } from "../../../entryPoint/factory";
 import { DecodePaymasterConfig, IPaymasterDecoder } from "../../interface/IPaymasterDecoder";
 
 export type BiconomyPaymasterDecoderConfig = {
-    networkId: string;
+    networkId?: string;
 };
 export class BiconomyPaymasterDecoder implements IPaymasterDecoder {
 
-    networkId: string;
+    networkId?: string;
 
     constructor(config: BiconomyPaymasterDecoderConfig) {
         this.networkId = config.networkId;
@@ -20,7 +20,10 @@ export class BiconomyPaymasterDecoder implements IPaymasterDecoder {
 
         let entryPointService = EntryPointFactory.getEntryPointService(entryPointAddress.toLowerCase());
         let paymasterAddress = entryPointService.getPaymasterAddress(userOp);
-        let paymaster = PaymasterFactory.getPaymaster(this.networkId, paymasterAddress);
+        let paymaster = PaymasterFactory.getPaymaster({
+            networkId: this.networkId, 
+            paymasterAddress
+        });
         if(paymaster) {
             return paymaster.getPaymasterInfo(userOp);
         }
