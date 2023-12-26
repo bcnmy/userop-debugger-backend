@@ -28,6 +28,7 @@ export class PaymasterDecoderFactory {
     // Default paymaster decoder map for addresses that are the same across networks
     private static defaultPaymasterDecoderMap: PaymasterDecoderAddressMap = {
         "0x00000f79b7faf42eebadba19acc07cd08af44789": new BiconomyPaymasterDecoder({}),
+        "0x000031dd6d9d3a133e663660b959162870d755d4": new BiconomyPaymasterDecoder({}),
         // Add more paymaster addresses and their decoders as needed
     };
 

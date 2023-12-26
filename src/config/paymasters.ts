@@ -8,5 +8,12 @@ export const paymasterConfig: PaymasterConfig = {
         type: PaymasterType.SPONSORSHIP_PAYMASTER,
         name: "Biconomy Sponsorship Paymaster v1.1.0",
         entryPointAddress: EntryPointV6Address.toLowerCase(),
+    },
+    "0x000031dd6d9d3a133e663660b959162870d755d4": {
+        paymasterAddress: "0x000031dd6d9d3a133e663660b959162870d755d4",
+        provider: PaymasterProvider.BICONOMY,
+        type: PaymasterType.SPONSORSHIP_PAYMASTER,
+        name: "Biconomy Sponsorship Paymaster v1.0.0",
+        entryPointAddress: EntryPointV6Address.toLowerCase(),
     }
 }
