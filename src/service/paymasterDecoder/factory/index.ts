@@ -1,44 +1,51 @@
-import { networkConfig } from "../../../config/network";
-import { PaymasterDecoderConstructor } from "../../../types";
 import { UserOperation } from "../../../types/userOp";
 import { EntryPointFactory } from "../../entryPoint/factory";
 import { IPaymasterDecoder } from "../interface/IPaymasterDecoder";
+import { BiconomyPaymasterDecoder } from "../providers/biconomy/BiconomyPaymasterDecoder";
 
 export type GetPaymasterDecoderConfig = {
     networkId: string;
     entryPointAddress: string;
     userOp: UserOperation;
 };
+
 type PaymasterDecoderAddressMap = { [address: string]: IPaymasterDecoder };
 type PaymasterNetworkMap = { [networkId: string]: PaymasterDecoderAddressMap };
+
 export class PaymasterDecoderFactory {
 
-    private static paymasterNetworkMap: PaymasterNetworkMap = {};
-
-    static {
-        Object.keys(networkConfig).forEach(networkId => {
-            const networkPaymasters = networkConfig[networkId].paymasters;
-            PaymasterDecoderFactory.paymasterNetworkMap[networkId] = {};
-
-            if(networkPaymasters) {
-                Object.keys(networkPaymasters).forEach(paymasterAddress => {
-                    const paymasterConfig = networkPaymasters[paymasterAddress];
-                    const PaymasterDecoderClass: PaymasterDecoderConstructor = paymasterConfig.decoderClass;
-                    PaymasterDecoderFactory.paymasterNetworkMap[networkId][paymasterAddress] = new PaymasterDecoderClass({networkId});
-                });
-            }
-        });
+    private static paymasterNetworkMap: PaymasterNetworkMap = {
+        // Add network-specific mappings here
+        "137": {
+            "0x00000f79b7faf42eebadba19acc07cd08af44789": new BiconomyPaymasterDecoder({
+                networkId: "137"
+            }),
+            // Add more paymaster addresses and their decoders as needed for this network
+        },
+        // Add more networks and their paymaster decoders as needed
     };
-    
+
+    // Default paymaster decoder map for addresses that are the same across networks
+    private static defaultPaymasterDecoderMap: PaymasterDecoderAddressMap = {
+        "0x00000f79b7faf42eebadba19acc07cd08af44789": new BiconomyPaymasterDecoder({}),
+        // Add more paymaster addresses and their decoders as needed
+    };
+
     static getPaymasterDecoder(param: GetPaymasterDecoderConfig): IPaymasterDecoder {
-        const {networkId, entryPointAddress, userOp} = param;
+        const { networkId, entryPointAddress, userOp } = param;
         const entryPointService = EntryPointFactory.getEntryPointService(entryPointAddress.toLowerCase());
-        if(entryPointService) {
-            const paymasterAddress = entryPointService.getPaymasterAddress(userOp);
-            console.debug("PaymasterDecoderFactory.getPaymasterDecoder: paymasterAddress:", paymasterAddress);
-            const paymasterDecoder = PaymasterDecoderFactory.paymasterNetworkMap[networkId][paymasterAddress.toLowerCase()];
-            return paymasterDecoder;
+        if (entryPointService) {
+            const paymasterAddress = entryPointService.getPaymasterAddress(userOp).toLowerCase();
+            const networkSpecificDecoder = PaymasterDecoderFactory.paymasterNetworkMap[networkId]?.[paymasterAddress];
+            if (networkSpecificDecoder) {
+                return networkSpecificDecoder;
+            }
+            const defaultDecoder = PaymasterDecoderFactory.defaultPaymasterDecoderMap[paymasterAddress];
+            if (defaultDecoder) {
+                return defaultDecoder;
+            }
+            throw new Error(`Paymaster Decoder not found for paymaster address ${paymasterAddress}`);
         }
-        throw new Error(`Unable to get paymaster decoder for networkId: ${networkId}, entryPointAddress: ${entryPointAddress}, userOp: ${userOp}`);
+        throw new Error(`Entry point service not found in PaymasterDecoderFactory for entry point address ${entryPointAddress}`);
     }
 }

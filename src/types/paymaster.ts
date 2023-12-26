@@ -24,9 +24,11 @@ export interface TokenInfo {
 
 export enum PaymasterType {
     SPONSORSHIP_PAYMASTER = "SPONSORSHIP_PAYMASTER",
-    ERC20_TOKEN_PAYMASTER = "ERC20_TOKEN_PAYMASTER"
+    ERC20_TOKEN_PAYMASTER = "ERC20_TOKEN_PAYMASTER",
+    UNKNOWN = "UNKNOWN"
 }
 
 export enum PaymasterProvider {
     BICONOMY = "BICONOMY",
+    UNKNOWN = "UNKNOWN"
 }
