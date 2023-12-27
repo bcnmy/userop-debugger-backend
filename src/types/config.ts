@@ -16,6 +16,7 @@ export type NetworkConfig = {
         [SmartAccountProvider.BICONOMY]: {
             [version: string]: {
                 subgraphUri: string;
+                humanReadableABI: string[];
             }
         };
     };
