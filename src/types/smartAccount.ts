@@ -1,10 +1,16 @@
+import { ModuleInfo } from "./modules";
+
 export interface SmartAccountInfo {
     provider?: SmartAccountProvider;
     smartAccountAddress: string;
+    version?: string;
     firstTransaction: boolean;
+    deploymentTransaction: boolean;
     factoryAddress?: string;
-    modulesUsed: ModuleInfo[];
-    moreInfo?: JSON;
+    moduleUsedInDeployment?: ModuleInfo;
+    moduleUsedInValidation?: ModuleInfo;
+    erc7579Compatible?: boolean;
+    moreInfo?: {};
 }
 
 export interface IntentInfo {
@@ -18,25 +24,12 @@ export interface TargetContract {
     name: string;
     value: string;
     callData: string;
-    action: JSON;
-}
-
-export interface ModuleInfo {
-    moduleAddress: string;
-    name: string;
-    type: ModuleType;
-    moreInfo?: JSON;
+    action: {};
 }
 
 export enum ExecutionType {
     SINGLE = "SINGLE",
     BATCH = "BATCH",
-}
-
-export enum ModuleType {
-    VALIDATION = "VALIDATION",
-    EXECUTION = "EXECUTION",
-    HOOK = "HOOK",
 }
 
 export enum SmartAccountProvider {
