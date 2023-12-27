@@ -14,7 +14,13 @@ class DebugUserOpController implements IJsonRpcController {
         let decodedUserOp = await userOpDecoderService?.decodeUserOp({entryPointAddress, userOp: userOperation});
         console.log(decodedUserOp);
         // Call respective service files here like userOpDecoder, errorDecoder and recommendation service
-        return "OK";
+        return {
+            originalError: errorObject,
+            additionalInfo: {
+                entryPointAddress: entryPointAddress,
+                userOpDetails: decodedUserOp
+            }
+        };
     }
 }
 

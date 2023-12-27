@@ -1,31 +1,33 @@
-import { networkConfig } from "../../../config";
-import { ModuleConstructor } from "../../../types";
+import { moduleConfig } from "../../../config/modules";
+import { ECDSAOwnershipModule } from "../biconomy/ECDSAOwnershipModule";
 import { IModule } from "../interface";
 
 type ModuleAddressMap = { [address: string]: IModule };
 type ModuleNetworkMap = { [networkId: string]: ModuleAddressMap };
 
-/**
- * ModuleFactory is a singleton class that creates and stores all the module instances
- * for each network and module address based on the config file.
- */
 export class ModuleFactory {
-    private static moduleNetworkMap: ModuleNetworkMap = {};
+    private static moduleNetworkMap: ModuleNetworkMap = {
+        "137": {
+            "0x0000001c5b32f37f5bea87bdd5374eb2ac54ea8e": new ECDSAOwnershipModule(moduleConfig["0x0000001c5b32f37f5bea87bdd5374eb2ac54ea8e"])
+            // Add more modules for this network as needed
+        },
+        // Add other networks as needed
+    };
 
-    static {
-        Object.keys(networkConfig).forEach(networkId => {
-            const networkModules = networkConfig[networkId].modules;
-            ModuleFactory.moduleNetworkMap[networkId] = {};
-
-            Object.keys(networkModules).forEach(moduleAddress => {
-                const moduleConfig = networkModules[moduleAddress];
-                const ModuleClass: ModuleConstructor = moduleConfig.implementationClass;
-                ModuleFactory.moduleNetworkMap[networkId][moduleAddress] = new ModuleClass(moduleConfig);
-            });
-        });
-    }
+    // Default module map for modules that are the same across networks
+    private static defaultModuleMap: ModuleAddressMap = {
+        "0x0000001c5b32f37f5bea87bdd5374eb2ac54ea8e": new ECDSAOwnershipModule(moduleConfig["0x0000001c5b32f37f5bea87bdd5374eb2ac54ea8e"])
+        // Add more modules as needed
+    };
 
     static getModule(networkId: string, moduleAddress: string): IModule | undefined {
-        return ModuleFactory.moduleNetworkMap[networkId][moduleAddress];
+        // Check if there's a network-specific implementation
+        const networkSpecificModule = ModuleFactory.moduleNetworkMap[networkId]?.[moduleAddress];
+        if (networkSpecificModule) {
+            return networkSpecificModule;
+        }
+
+        // Fallback to the default implementation
+        return ModuleFactory.defaultModuleMap[moduleAddress];
     }
 }

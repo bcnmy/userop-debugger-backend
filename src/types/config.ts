@@ -1,18 +1,21 @@
 import { ModuleConstructor, ModuleInfo } from "./modules";
-import { PaymasterProvider } from "./paymaster";
+import { PaymasterInfo, PaymasterProvider } from "./paymaster";
 import { SmartAccountProvider } from "./smartAccount";
+
+export type PaymasterInfoExtended = PaymasterInfo & {
+    entryPointAddress: string;
+};
+
+export type ModuleInfoExtended = ModuleInfo & {
+    implementationClass: ModuleConstructor;
+};
 
 export type NetworkConfig = {
     [networkId: string]: {
         entryPointV6: string;
         nativeSymbol: string;
-        smartAccountProvider: SmartAccountProvider[];
-        paymasterProvider: PaymasterProvider[];
-        modules: {
-            [address: string] : ModuleInfo & {
-                implementationClass: ModuleConstructor
-            }
-        };
+        supportedSAProviders: SmartAccountProvider[];
+        supportedPaymasterProviders: PaymasterProvider[];
         [SmartAccountProvider.BICONOMY]: {
             [version: string]: {
                 subgraphUri: string;
@@ -21,3 +24,11 @@ export type NetworkConfig = {
         };
     };
 };
+
+export type PaymasterConfig = {
+    [address: string]: PaymasterInfoExtended;
+}
+
+export type ModuleConfig = {
+    [address: string]: ModuleInfo;
+}

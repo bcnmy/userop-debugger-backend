@@ -16,9 +16,9 @@ export interface UserOperation {
 }
 
 export interface DecodedUserOp {
-    smartAccount: SmartAccountInfo;
-    paymaster: PaymasterInfo;
-    intent: IntentInfo;
+    smartAccount?: SmartAccountInfo;
+    paymaster?: PaymasterInfo;
+    intent?: IntentInfo;
     maxTransactionFee: string;
     gasPaidBy: Actors;
 }
