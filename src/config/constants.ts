@@ -1,0 +1,1 @@
+export const ZEROX_ADDRESS = "0x";

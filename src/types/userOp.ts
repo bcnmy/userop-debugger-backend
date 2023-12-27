@@ -37,6 +37,7 @@ export enum ErrorType {
     SMART_ACCOUNT = "SMART_ACCOUNT",
     PAYMASTER = "PAYMASTER",
     TARGET_CONTRACT = "TARGET_CONTRACT",
+    UNKNOWN = "UNKNOWN",
 }
 
 export enum Actors {
