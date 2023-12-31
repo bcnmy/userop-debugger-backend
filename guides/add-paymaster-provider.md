@@ -20,14 +20,14 @@ To integrate a new Paymaster Provider to the project, follow these steps:
 1. **Update Network Configuration:**
    - Go to the `src/config/index.ts` file.
    - Modify the `networkConfig` variable.
-   - Add your new enum to the `paymasterProvider` field for each network that will support this new provider.
+   - Add your new enum to the `supportedPaymasterProviders` field for each network that will support this new provider.
    - Example:
      ```typescript
      const networkConfig = {
        // Existing network configurations...
        'networkId': {
          // Other settings...
-         paymasterProvider: [
+         supportedPaymasterProviders: [
            // Existing providers...
            PaymasterProvider.YOUR_PROVIDER_NAME,
          ],

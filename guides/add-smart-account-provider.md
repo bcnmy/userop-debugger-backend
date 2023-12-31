@@ -20,14 +20,14 @@ To integrate a new Smart Account Provider to the project, follow these steps:
 1. **Update Network Configuration:**
    - Go to the `src/config/index.ts` file.
    - Modify the `networkConfig` variable.
-   - Add your new enum to the `smartAccountProvider` field for each network that will support this new provider.
+   - Add your new enum to the `supportedSAProviders` field for each network that will support this new provider.
    - Example:
      ```typescript
      const networkConfig = {
        // Existing network configurations...
        'networkId': {
          // Other settings...
-         smartAccountProvider: [
+         supportedSAProviders: [
            // Existing providers...
            SmartAccountProvider.YOUR_PROVIDER_NAME,
          ],

@@ -1,4 +1,5 @@
-import { networkConfig, supportedNetworks } from "../config";
+import { supportedNetworks } from "../config";
+import { networkConfig } from "../config/network";
 import { PaymasterDecoderService } from "../service/paymasterDecoder";
 import { SmartAccountDecoderService } from "../service/smartAccountDecoder";
 import { ISmartAccountResolver } from "../service/smartAccountDecoder/interface/ISmartAccountResolver";

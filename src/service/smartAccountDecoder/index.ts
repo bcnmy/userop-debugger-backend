@@ -37,9 +37,13 @@ export class SmartAccountDecoderService implements ISmartAccountDecoder {
     }
     
     async decodeIntent(userOp: UserOperation): Promise<IntentInfo> {
-        console.log(userOp);
-        // Use SmartAccountDecoder factory to get correct implementation of SmartAccountDecoder then
-        // call decodeIntent method on it
-        throw new Error("Method not implemented.");
+        let intentInfo: IntentInfo;
+        let smartAccountDecoder = await SmartAccountDecoderFactory.getSmartAccountDecoder(this.networkId, userOp);
+        if(smartAccountDecoder) {
+            intentInfo = await smartAccountDecoder.decodeIntent(userOp);
+        } else {
+            throw new Error("No SmartAccountDecoder found for the given user operation.");
+        }
+        return intentInfo;
     }
 }

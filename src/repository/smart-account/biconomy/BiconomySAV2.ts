@@ -1,12 +1,13 @@
-import { networkConfig } from "../../../config";
+
 import { ZEROX_ADDRESS } from "../../../config/constants";
+import { networkConfig } from "../../../config/network";
 import { SubGraphClient } from "../../../service/subgraph";
 import { SubGraphClientFactory } from "../../../service/subgraph/factory";
-import { BiconomySAVersion, SmartAccountInfo, SmartAccountProvider, UserOperation } from "../../../types";
+import { BiconomySAVersion, ExecutionType, IntentInfo, SmartAccountInfo, SmartAccountProvider, TargetContract, UserOperation } from "../../../types";
 import { isDeploymentTransaction, isFirstTransaction } from "../../../utils";
 import { ModuleFactory } from "../../modules/factory";
 import { ISmartAccount } from "../interface";
-import { Hex, decodeAbiParameters } from 'viem'
+import { Abi, Hex, decodeAbiParameters, parseAbi, decodeFunctionData } from 'viem'
 
 export type BiconomySAV2Config = {
     networkId: string;
@@ -23,10 +24,60 @@ export class BiconomySAV2 implements ISmartAccount {
     client: SubGraphClient;
     version: BiconomySAVersion = BiconomySAVersion.v2;
     networkId: string;
+    abi: Abi;
 
     constructor(config: BiconomySAV2Config) {
         this.networkId = config.networkId;
         this.client = SubGraphClientFactory.createClient(this._getSubGraphUri());
+        this.abi = parseAbi(networkConfig[this.networkId].BICONOMY[this.version].humanReadableABI);
+    }
+
+    async getIntentInfo(userOp: UserOperation): Promise<IntentInfo> {
+        if (!userOp || !userOp.callData) {
+            throw new Error("Invalid UserOperation provided.");
+        }
+
+        const { functionName, args } = decodeFunctionData({
+            abi: this.abi,
+            data: userOp.callData as Hex
+        });
+        let targetContracts: TargetContract[] = [];
+        let isExecute = this._isExeute(functionName, args);
+
+        if (args && isExecute) {
+            // Handle single execution
+            targetContracts.push({
+                address: `${args[0]}`,
+                value: `${args[1]}`,
+                callData: `${args[2]}`,
+                name: "", // TODO: Populate based on your application logic
+                action: {} // TODO: Populate based on your application logic
+            });
+        } else if (args && this._isExecuteBatch(functionName, args)) {
+            // Handle batch execution
+            let dests: string[] = args[0] as string[];
+            let values: string[] = args[1] as string[];
+            let funcs: string[] = args[2] as string[];
+            dests.forEach((dest, index) => {
+                targetContracts.push({
+                    address: dest,
+                    value: values[index].toString(),
+                    callData: funcs[index],
+                    name: "", // TODO: Populate based on your application logic
+                    action: {} // TODO: Populate based on your application logic
+                });
+            });
+        } else {
+            throw new Error("Unknown function call in UserOperation for Bicoomy Smart Account V2.");
+        }
+
+        const intentInfo: IntentInfo = {
+            executionType: isExecute ? ExecutionType.SINGLE : ExecutionType.BATCH,
+            targetContracts,
+            // TODO: Add logic to extract executionModule if applicable
+        };
+
+        return intentInfo;
     }
     
     async canHandleUserOp(userOp: UserOperation): Promise<boolean> {
@@ -71,6 +122,20 @@ export class BiconomySAV2 implements ISmartAccount {
     }
 
     // Private Methods
+
+    private _isExeute(functionName: string, args: readonly unknown[] | undefined): boolean {
+        if(args && args.length == 3) {
+            return (functionName === 'execute' || functionName === 'execute_ncC');
+        }
+        throw new Error("Invalid args provided");
+    }
+
+    private _isExecuteBatch(functionName: string, args: readonly unknown[]): boolean {
+        if(args && args.length == 3) {
+            return (functionName === 'executeBatch' || functionName === 'executeBatch_y6U');
+        }
+        throw new Error("Invalid args provided");
+    }
 
     private async _getValidationModuleAddress(userOp: UserOperation): Promise<string | null> {
         try {

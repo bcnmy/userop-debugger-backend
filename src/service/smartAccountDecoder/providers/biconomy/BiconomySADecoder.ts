@@ -39,7 +39,6 @@ export class BiconomySADecoder implements ISmartAccountDecoder {
     }
 
     async decodeIntent(userOp: UserOperation): Promise<IntentInfo> {
-        console.log("IN BiconomySADecoderV2 decodeIntent method", userOp);
-        throw new Error("Method not implemented.");
+        return this.smartAccount.getIntentInfo(userOp);
     }
 }
