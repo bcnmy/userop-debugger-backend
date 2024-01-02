@@ -1,6 +1,6 @@
 import { Hex, decodeAbiParameters } from "viem";
 import { PaymasterInfo, PaymasterInfoExtended, PaymasterProvider, PaymasterType, UserOperation } from "../../../types";
-import { IPaymaster } from "../interface";
+import { IPaymaster, PaymasterInfoParams } from "../interface";
 import { EntryPointFactory } from "../../../service/entryPoint/factory";
 import { IEntryPointService } from "../../../service/entryPoint/interface/IEntryPointService";
 
@@ -15,6 +15,7 @@ export class BiconomySponsorshipPaymasterV1_0_0 implements IPaymaster {
     provider: PaymasterProvider;
     entryPointAddress: string;
     entryPointService: IEntryPointService;
+    version: string;
     
     constructor(config: PaymasterInfoExtended) {
         this.name = config.name;
@@ -23,6 +24,7 @@ export class BiconomySponsorshipPaymasterV1_0_0 implements IPaymaster {
         this.provider = config.provider;
         this.entryPointAddress = config.entryPointAddress;
         this.entryPointService = EntryPointFactory.getEntryPointService(this.entryPointAddress);
+        this.version = config.version;
     }
 
     async canHandleUserOp(userOp: UserOperation): Promise<boolean> {
@@ -38,12 +40,14 @@ export class BiconomySponsorshipPaymasterV1_0_0 implements IPaymaster {
         }
     }
 
-    async getPaymasterInfo(_userOp: UserOperation): Promise<PaymasterInfo> {
+    async getPaymasterInfo(param: PaymasterInfoParams): Promise<PaymasterInfo> {
+        let { networkId: _networkId, userOp: _userOp } = param;
         let paymasterInfo: PaymasterInfo = {
             name: this.name,
             provider: this.provider,
             paymasterAddress: this.entryPointService.getPaymasterAddress(_userOp),
-            type: this.type
+            type: this.type,
+            version: this.version
         };
         
         // Extract more data from paymasterAndData as per Biconomy Sponsorship Paymaster v1.0.0

@@ -8,6 +8,7 @@ export type PaymasterDecoderConstructor = new (config: PaymasterDecoderConfig) =
 
 export interface PaymasterInfo {
     name: string;
+    version: string;
     provider: PaymasterProvider;
     paymasterAddress: string;
     type: PaymasterType;

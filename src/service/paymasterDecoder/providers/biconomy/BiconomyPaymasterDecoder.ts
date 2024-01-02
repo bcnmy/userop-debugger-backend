@@ -24,8 +24,8 @@ export class BiconomyPaymasterDecoder implements IPaymasterDecoder {
             networkId: this.networkId, 
             paymasterAddress
         });
-        if(paymaster) {
-            return paymaster.getPaymasterInfo(userOp);
+        if(paymaster && this.networkId) {
+            return paymaster.getPaymasterInfo({userOp, networkId: this.networkId});
         }
         throw new Error("Unable to decode paymaster");
     }

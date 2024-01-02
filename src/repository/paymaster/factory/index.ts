@@ -1,6 +1,7 @@
 import { paymasterConfig } from "../../../config/paymasters";
 import { BiconomySponsorshipPaymasterV1_0_0 } from "../biconomy/BiconomyPaymasterV1_0_0";
 import { BiconomySponsorshipPaymasterV1_1_0 } from "../biconomy/BiconomyPaymasterV1_1_0";
+import { BiconomyTokenPaymasterV1_0_0 } from "../biconomy/BiconomyTokenPaymasterV1_0_0";
 import { IPaymaster } from "../interface";
 
 type PaymasterAddressMap = { [address: string]: IPaymaster };
@@ -25,7 +26,9 @@ export class PaymasterFactory {
         "0x00000f79b7faf42eebadba19acc07cd08af44789": 
             new BiconomySponsorshipPaymasterV1_1_0(paymasterConfig["0x00000f79b7faf42eebadba19acc07cd08af44789"]),
         "0x000031dd6d9d3a133e663660b959162870d755d4":
-            new BiconomySponsorshipPaymasterV1_0_0(paymasterConfig["0x000031dd6d9d3a133e663660b959162870d755d4"])
+            new BiconomySponsorshipPaymasterV1_0_0(paymasterConfig["0x000031dd6d9d3a133e663660b959162870d755d4"]),
+        "0x00000f7365ca6c59a2c93719ad53d567ed49c14c":
+            new BiconomyTokenPaymasterV1_0_0(paymasterConfig["0x00000f7365ca6c59a2c93719ad53d567ed49c14c"]),
     };
 
     static getPaymaster(param: GetPaymasterConfig): IPaymaster | undefined {

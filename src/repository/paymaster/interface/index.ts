@@ -1,5 +1,9 @@
 import { UserOperation, PaymasterInfo } from "../../../types"
 
+export interface PaymasterInfoParams {
+    networkId: string,
+    userOp: UserOperation
+}
 export interface IPaymaster {
     /**
      * This method checks if the given userOp belongs to the Paymaster by checking the paymasterAndData field.
@@ -9,7 +13,7 @@ export interface IPaymaster {
 
     /**
      * This method decodes the user operation and returns the Paymaster information.
-     * @param userOp UserOperation object
+     * @param param PaymasterInfoParams object
      */
-    getPaymasterInfo(userOp: UserOperation): Promise<PaymasterInfo>
+    getPaymasterInfo(param: PaymasterInfoParams): Promise<PaymasterInfo>
 }
