@@ -29,6 +29,7 @@ export class PaymasterDecoderService implements IPaymasterDecoder {
             }
             paymasterInfo = await paymasterDecoder.decodePaymaster(param);
         } catch (error) {
+            console.log(error);
             let entryPointService = EntryPointFactory.getEntryPointService(param.entryPointAddress.toLowerCase());
             if(!entryPointService) {
                 throw new Error(`Unable to get entry point service for entry point address: ${param.entryPointAddress}`);
@@ -38,7 +39,8 @@ export class PaymasterDecoderService implements IPaymasterDecoder {
                 name: "Unknown",
                 provider: PaymasterProvider.UNKNOWN,
                 paymasterAddress: paymasterAddress,
-                type: PaymasterType.UNKNOWN
+                type: PaymasterType.UNKNOWN,
+                version: "Unknown"
             }
         }
         return paymasterInfo;
