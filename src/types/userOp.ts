@@ -30,10 +30,10 @@ export interface Error {
 
 export interface DecodedError {
     message: string;
-    type: ErrorType;
+    errorSource: ErrorSource;
 }
 
-export enum ErrorType {
+export enum ErrorSource {
     SMART_ACCOUNT = "SMART_ACCOUNT",
     PAYMASTER = "PAYMASTER",
     TARGET_CONTRACT = "TARGET_CONTRACT",
