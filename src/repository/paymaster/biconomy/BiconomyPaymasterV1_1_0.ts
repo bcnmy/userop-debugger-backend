@@ -1,8 +1,8 @@
 import { Hex, decodeAbiParameters } from "viem";
 import { PaymasterInfo, PaymasterInfoExtended, PaymasterProvider, PaymasterType, UserOperation } from "../../../types";
 import { IPaymaster, PaymasterInfoParams } from "../interface";
-import { EntryPointFactory } from "../../../service/entryPoint/factory";
-import { IEntryPointService } from "../../../service/entryPoint/interface/IEntryPointService";
+import { EntryPointFactory } from "../../entryPoint/factory";
+import { IEntryPointService } from "../../entryPoint/interface/IEntryPointService";
 
 export class BiconomySponsorshipPaymasterV1_1_0 implements IPaymaster {
 

@@ -1,5 +1,5 @@
 import { PaymasterInfo, PaymasterProvider, PaymasterType } from "../../types";
-import { EntryPointFactory } from "../entryPoint/factory";
+import { EntryPointFactory } from "../../repository/entryPoint/factory";
 import { PaymasterDecoderFactory } from "./factory";
 import { DecodePaymasterConfig, IPaymasterDecoder } from "./interface/IPaymasterDecoder";
 
