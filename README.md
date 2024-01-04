@@ -1,4 +1,4 @@
-# UserOp Backend
+# UserOp Debugger Backend
 
 ## Overview
 This project, `userop-debugger-backend`, is designed to handle operations related to user operations and error decoding. It's built on Node.js and utilizes various dependencies for efficient backend management.
