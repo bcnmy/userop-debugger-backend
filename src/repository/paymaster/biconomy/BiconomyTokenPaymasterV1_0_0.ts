@@ -1,6 +1,6 @@
 import { Hex, decodeAbiParameters } from "viem";
-import { EntryPointFactory } from "../../../service/entryPoint/factory";
-import { IEntryPointService } from "../../../service/entryPoint/interface/IEntryPointService";
+import { EntryPointFactory } from "../../entryPoint/factory";
+import { IEntryPointService } from "../../entryPoint/interface/IEntryPointService";
 import { UserOperation, PaymasterInfo, PaymasterInfoExtended, PaymasterProvider, PaymasterType } from "../../../types";
 import { IPaymaster, PaymasterInfoParams } from "../interface";
 import { formatDate, formatDuration, formatRelativeTime } from "../../../utils";

@@ -1,5 +1,5 @@
 import { UserOperation } from "../../../types/userOp";
-import { EntryPointFactory } from "../../entryPoint/factory";
+import { EntryPointFactory } from "../../../repository/entryPoint/factory";
 import { IPaymasterDecoder } from "../interface/IPaymasterDecoder";
 import { BiconomyPaymasterDecoder } from "../providers/biconomy/BiconomyPaymasterDecoder";
 

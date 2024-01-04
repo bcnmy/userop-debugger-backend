@@ -1,6 +1,6 @@
 import { PaymasterFactory } from "../../../../repository/paymaster/factory";
 import { PaymasterInfo } from "../../../../types";
-import { EntryPointFactory } from "../../../entryPoint/factory";
+import { EntryPointFactory } from "../../../../repository/entryPoint/factory";
 import { DecodePaymasterConfig, IPaymasterDecoder } from "../../interface/IPaymasterDecoder";
 
 export type BiconomyPaymasterDecoderConfig = {
