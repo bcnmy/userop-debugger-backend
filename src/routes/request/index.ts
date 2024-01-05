@@ -22,4 +22,16 @@ jsonRPCRouter.method("eth_chains", async (ctx: any) => {
     ctx.status = 200;
 });
 
+
+jsonRPCRouter.method("eth_supportedEntryPoints", async (ctx: any) => {
+    const networkId = ctx.params.networkId;
+    const data = [{
+        label: "EntrypointV6",
+        value: networkConfig[networkId].entryPointV6
+    }]
+    ctx.body = data;
+    ctx.status = 200;
+});
+
+
 export default jsonRPCRouter;
