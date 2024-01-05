@@ -154,4 +154,4 @@ The application starts a server that listens for requests. You can interact with
 ```
 
 ## License
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/bcnmy/userop-debugger-backend/blob/main/LICENSE.md) file for details.
