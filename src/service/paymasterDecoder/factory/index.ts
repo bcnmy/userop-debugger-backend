@@ -1,5 +1,5 @@
 import { UserOperation } from "../../../types/userOp";
-import { EntryPointFactory } from "../../entryPoint/factory";
+import { EntryPointFactory } from "../../../repository/entryPoint/factory";
 import { IPaymasterDecoder } from "../interface/IPaymasterDecoder";
 import { BiconomyPaymasterDecoder } from "../providers/biconomy/BiconomyPaymasterDecoder";
 
@@ -20,6 +20,12 @@ export class PaymasterDecoderFactory {
             "0x00000f79b7faf42eebadba19acc07cd08af44789": new BiconomyPaymasterDecoder({
                 networkId: "137"
             }),
+            "0x000031dd6d9d3a133e663660b959162870d755d4": new BiconomyPaymasterDecoder({
+                networkId: "137"
+            }),
+            "0x00000f7365ca6c59a2c93719ad53d567ed49c14c": new BiconomyPaymasterDecoder({
+                networkId: "137"
+            }),
             // Add more paymaster addresses and their decoders as needed for this network
         },
         // Add more networks and their paymaster decoders as needed
@@ -27,8 +33,6 @@ export class PaymasterDecoderFactory {
 
     // Default paymaster decoder map for addresses that are the same across networks
     private static defaultPaymasterDecoderMap: PaymasterDecoderAddressMap = {
-        "0x00000f79b7faf42eebadba19acc07cd08af44789": new BiconomyPaymasterDecoder({}),
-        "0x000031dd6d9d3a133e663660b959162870d755d4": new BiconomyPaymasterDecoder({}),
         // Add more paymaster addresses and their decoders as needed
     };
 
@@ -41,7 +45,7 @@ export class PaymasterDecoderFactory {
             if (networkSpecificDecoder) {
                 return networkSpecificDecoder;
             }
-            const defaultDecoder = PaymasterDecoderFactory.defaultPaymasterDecoderMap[paymasterAddress];
+            const defaultDecoder = PaymasterDecoderFactory.defaultPaymasterDecoderMap[paymasterAddress];            
             if (defaultDecoder) {
                 return defaultDecoder;
             }

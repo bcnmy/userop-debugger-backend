@@ -1,3 +1,5 @@
+
+import { ZEROX_ADDRESS } from "../../../config/constants";
 import { networkConfig } from "../../../config/network";
 import { SubGraphClient } from "../../../service/subgraph";
 import { SubGraphClientFactory } from "../../../service/subgraph/factory";
@@ -137,7 +139,7 @@ export class BiconomySAV2 implements ISmartAccount {
 
     private async _getValidationModuleAddress(userOp: UserOperation): Promise<string | null> {
         try {
-            if (!userOp.signature || userOp.signature === '0x') {
+            if (!userOp.signature || userOp.signature === ZEROX_ADDRESS) {
                 throw new Error('No signature found in UserOperation');
             }
 

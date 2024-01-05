@@ -20,7 +20,5 @@ export const createApp = async () => {
     app.use(setRequestId);
     app.use(errorHandler);
     app.use(responseTime);
-
-
     return app;
 }

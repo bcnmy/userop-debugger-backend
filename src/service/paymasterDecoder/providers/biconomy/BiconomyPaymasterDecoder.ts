@@ -1,6 +1,6 @@
 import { PaymasterFactory } from "../../../../repository/paymaster/factory";
 import { PaymasterInfo } from "../../../../types";
-import { EntryPointFactory } from "../../../entryPoint/factory";
+import { EntryPointFactory } from "../../../../repository/entryPoint/factory";
 import { DecodePaymasterConfig, IPaymasterDecoder } from "../../interface/IPaymasterDecoder";
 
 export type BiconomyPaymasterDecoderConfig = {
@@ -24,8 +24,8 @@ export class BiconomyPaymasterDecoder implements IPaymasterDecoder {
             networkId: this.networkId, 
             paymasterAddress
         });
-        if(paymaster) {
-            return paymaster.getPaymasterInfo(userOp);
+        if(paymaster && this.networkId) {
+            return paymaster.getPaymasterInfo({userOp, networkId: this.networkId});
         }
         throw new Error("Unable to decode paymaster");
     }
