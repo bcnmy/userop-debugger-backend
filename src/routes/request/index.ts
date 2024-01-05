@@ -1,5 +1,6 @@
 import debugUserOp from '../../controller/DebugUserOpController';
 import { jsonRPCRouter } from '../../config/router';
+import { supportedNetworks } from '../../config';
 
 jsonRPCRouter.method("eth_debugUserOperation", async (ctx: any) => {
     const params = ctx.request.body.params;
@@ -9,6 +10,13 @@ jsonRPCRouter.method("eth_debugUserOperation", async (ctx: any) => {
     ctx.status = 200;
 });
 
+
 // Add other rpc methods here as mentioned above
+jsonRPCRouter.method("eth_config", async (ctx: any) => {
+    ctx.body = {
+        supportedNetworks,
+    };
+    ctx.status = 200;
+});
 
 export default jsonRPCRouter;
