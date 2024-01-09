@@ -13,7 +13,7 @@ jsonRPCRouter.method("eth_debugUserOperation", async (ctx: any) => {
 
 
 // Add other rpc methods here as mentioned above
-jsonRPCRouter.method("eth_config", async (ctx: any) => {
+jsonRPCRouter.method("eth_chains", async (ctx: any) => {
     const data = supportedNetworks.map((network) => ({
         label: networkConfig[network].nativeSymbol,
         value: network,
