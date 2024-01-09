@@ -16,6 +16,7 @@
     "dependencies": {
         "@apollo/client": "^3.8.8",
         "@koalex/koa-json-rpc": "^1.0.3",
+        "cross-fetch": "^4.0.0",
         "graphql": "^16.8.1",
         "koa": "^2.14.2",
         "koa-bodyparser": "^4.4.1",
