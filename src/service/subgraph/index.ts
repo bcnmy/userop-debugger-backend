@@ -13,11 +13,11 @@ export class SubGraphClient {
         if(!config.uri || config.uri === "") {
             throw new Error("Subgraph URI not provided");
         }
-        
+
         this.client = new ApolloClient({
             link: new HttpLink({ uri: config.uri, fetch }),
             cache: new InMemoryCache()
-            });
+        });
     }
 
     query(query: string) {
