@@ -1,4 +1,5 @@
-import { gql, ApolloClient, InMemoryCache } from '@apollo/client/core';
+import { gql, ApolloClient, InMemoryCache, HttpLink } from '@apollo/client/core';
+import fetch from 'cross-fetch';
 
 export type SubGraphClientConfig = {
     uri: string;
@@ -12,9 +13,9 @@ export class SubGraphClient {
         if(!config.uri || config.uri === "") {
             throw new Error("Subgraph URI not provided");
         }
-        
+
         this.client = new ApolloClient({
-            uri: config.uri,
+            link: new HttpLink({ uri: config.uri, fetch }),
             cache: new InMemoryCache()
         });
     }
