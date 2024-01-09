@@ -25,6 +25,9 @@ jsonRPCRouter.method("eth_chains", async (ctx: any) => {
 
 jsonRPCRouter.method("eth_supportedEntryPoints", async (ctx: any) => {
     const networkId = ctx.params.networkId;
+    if (!networkConfig[networkId]) {
+        return ctx.throw(400, `Network ${networkId} is not supported`);
+    }
     const data = [{
         label: "EntrypointV6",
         value: networkConfig[networkId].entryPointV6
