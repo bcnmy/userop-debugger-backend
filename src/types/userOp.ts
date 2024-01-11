@@ -31,6 +31,7 @@ export interface Error {
 export interface DecodedError {
     message: string;
     errorSource: ErrorSource;
+    suggestions: string[];
 }
 
 export enum ErrorSource {
