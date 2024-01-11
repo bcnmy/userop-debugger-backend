@@ -27,7 +27,7 @@ export class AA21Decoder implements IErrorDecoder {
 
         return {
             message: `Smart Account is supposed to pay for this userOp but it does not have enough native balance to pay for the gas.
-            Max ${requiredFunds} is required to pay for the gas.}`,
+            Max ${requiredFunds} is required to pay for the gas.`,
             errorSource: ErrorSource.SMART_ACCOUNT,
             suggestions: suggestedActions
         }
