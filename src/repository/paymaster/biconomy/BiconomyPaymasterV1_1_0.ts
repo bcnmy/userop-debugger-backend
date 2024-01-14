@@ -50,15 +50,40 @@ export class BiconomySponsorshipPaymasterV1_1_0 implements IPaymaster {
 
         // Extract more data from paymasterAndData as per Biconomy Sponsorship Paymaster v1.1.0
         if (_userOp.paymasterAndData) {
-            const decoded = decodeAbiParameters(
-                [
-                    { name: 'paymasterId', type: 'address' },
-                    { name: 'validUntil', type: 'uint48' },
-                    { name: 'validAfter', type: 'uint48' },
-                    { name: 'signature', type: 'bytes' },
-                ],
-                this.entryPointService.getPaymasterData(_userOp) as Hex
-            );
+            let paymasterData;
+            try {
+                paymasterData = this.entryPointService.getPaymasterData(_userOp) as Hex;
+            } catch(error: any) {
+                paymasterInfo.error = {
+                    errorSource: ErrorSource.PAYMASTER,
+                    message: error.message,
+                    suggestions: [
+                        `Make sure you have provided correct paymasterAndData.`,
+                    ]
+                }
+                return paymasterInfo;
+            }
+            let decoded;
+            try {
+                decoded = decodeAbiParameters(
+                    [
+                        { name: 'paymasterId', type: 'address' },
+                        { name: 'validUntil', type: 'uint48' },
+                        { name: 'validAfter', type: 'uint48' },
+                        { name: 'signature', type: 'bytes' },
+                    ],
+                    paymasterData
+                );
+            } catch(error: any) {
+                paymasterInfo.error = {
+                    errorSource: ErrorSource.PAYMASTER,
+                    message: `Unable to decode paymasterAndData.`,
+                    suggestions: [
+                        `Make sure you have provided paymasterAndData in correct format <paymaster address><abi-encoded(paymasterId, validUntil, validAfter, signature).`,
+                    ]
+                }
+                return paymasterInfo;
+            }
             
             let hash = this._getHash(_userOp, _networkId, decoded[0], decoded[2], decoded[1]);
             const recoveredSigner = await this.recoverSigner(hash, decoded[3]);
