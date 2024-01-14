@@ -1,3 +1,4 @@
+import { DecodedError } from ".";
 import { IPaymaster } from "../repository/paymaster/interface";
 import { PaymasterDecoderConfig } from "../service/paymasterDecoder";
 import { IPaymasterDecoder } from "../service/paymasterDecoder/interface/IPaymasterDecoder";
@@ -14,6 +15,7 @@ export interface PaymasterInfo {
     type: PaymasterType;
     gasPaymentToken?: TokenInfo;
     exchangeRate?: string;
+    error?: DecodedError;
     moreInfo?: {};
 }
 
