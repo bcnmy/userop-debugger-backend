@@ -3,23 +3,36 @@ import { isPaymasterUsed } from "../../utils";
 import { IEntryPointService } from "./interface/IEntryPointService";
 
 export class EntryPointV6 implements IEntryPointService {
+   
     getRequiredPreFund(userOp: UserOperation): bigint {
         let maxTransactionFee;
-        
+
         let verificationGasLimit = BigInt(userOp.verificationGasLimit);
         let callGasLimit = BigInt(userOp.callGasLimit);
         let preVerificationGas = BigInt(userOp.preVerificationGas);
         let maxFeePerGas = BigInt(userOp.maxFeePerGas);
-        
-        if(isPaymasterUsed(userOp)) {
+
+        if (isPaymasterUsed(userOp)) {
             maxTransactionFee = (verificationGasLimit + callGasLimit + preVerificationGas) * maxFeePerGas;
         } else {
             maxTransactionFee = ((verificationGasLimit * BigInt(3)) + callGasLimit + preVerificationGas) * maxFeePerGas;
         }
         return maxTransactionFee;
     }
-    
-    getPaymasterAddress(userOp: UserOperation) : string {
+
+    getSenderAddress(userOp: UserOperation): string {
+        return userOp.sender;
+    }
+
+    getUserOpNonce(userOp: UserOperation): bigint {
+        return userOp.nonce ? BigInt(userOp.nonce) : BigInt(0);
+    }
+
+    getAccountNonceOfSender(userOp: UserOperation): bigint {
+        return BigInt(0);
+    }
+
+    getPaymasterAddress(userOp: UserOperation): string {
         try {
             if (!userOp.paymasterAndData || userOp.paymasterAndData.length < 42) {
                 throw new Error("Invalid or too short paymasterAndData provided");
@@ -48,4 +61,3 @@ export class EntryPointV6 implements IEntryPointService {
         }
     }
 }
-    
