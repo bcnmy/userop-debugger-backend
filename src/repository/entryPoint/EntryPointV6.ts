@@ -28,10 +28,6 @@ export class EntryPointV6 implements IEntryPointService {
         return userOp.nonce ? BigInt(userOp.nonce) : BigInt(0);
     }
 
-    getAccountNonceOfSender(userOp: UserOperation): bigint {
-        return BigInt(0);
-    }
-
     getPaymasterAddress(userOp: UserOperation): string {
         try {
             if (!userOp.paymasterAndData || userOp.paymasterAndData.length < 42) {

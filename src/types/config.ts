@@ -13,6 +13,7 @@ export type ModuleInfoExtended = ModuleInfo & {
 export type NetworkConfig = {
     [networkId: string]: {
         entryPointV6: string;
+        providerURL: string;
         nativeSymbol: string;
         supportedSAProviders: SmartAccountProvider[];
         supportedPaymasterProviders: PaymasterProvider[];

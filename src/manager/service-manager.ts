@@ -11,6 +11,8 @@ import { BiconomyResolver } from "../service/smartAccountDecoder/providers/bicon
 import { UserOpDecoderService } from "../service/userOpDecoder";
 import { IUserOpDecoder } from "../service/userOpDecoder/interface/IUserOpDecoder";
 import { BiconomySAVersion } from "../types";
+import  EntryPointABI from "../abi/EntryPoint.json";
+import { ethers } from "ethers";
 
 const userOpDecoderMap = new Map<string, IUserOpDecoder>();
 const smartAccountResolverMap = new Map<string, ISmartAccountResolver[]>();
@@ -23,10 +25,13 @@ supportedNetworks.forEach((networkId: string) => {
     if(_networkConfig) {
         let smartAccountDecoder = new SmartAccountDecoderService({ networkId });
         let paymasterDecoder = new PaymasterDecoderService({ networkId });
+        const provider = new ethers.JsonRpcProvider(_networkConfig.providerURL);
+        const entryPointContractInstance : ethers.Contract = new ethers.Contract(_networkConfig.entryPointV6, EntryPointABI, provider);
         userOpDecoderMap.set(networkId, new UserOpDecoderService({
             networkId,
+            entryPointContractInstance: entryPointContractInstance,
             smartAccountDecoder,
-            paymasterDecoder
+            paymasterDecoder,
         }));
         errorDecoderMap.set(networkId, new ErrorDecoderService({
             networkId,
@@ -69,4 +74,9 @@ export function getSmartAccountResolvers(networkId: string): ISmartAccountResolv
 
 export function getErrorResolvers(networkId: string): IErrorResolver[] | undefined {
     return errorResolverMap.get(networkId);
+}
+
+export function getEntryPointContractInstance(networkId: string): ethers.Contract {
+  const userOpDecoderService :UserOpDecoderService = userOpDecoderMap.get(networkId) as UserOpDecoderService;
+  return userOpDecoderService?.entryPointContractInstance;
 }

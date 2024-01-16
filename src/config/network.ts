@@ -8,6 +8,7 @@ import { EntryPointV6Address } from ".";
 export const networkConfig: NetworkConfig = {
     "137": {
         entryPointV6: EntryPointV6Address.toLowerCase(),
+        providerURL: process.env.MATIC_RPC_URL || "",
         nativeSymbol: "Matic",
         supportedSAProviders: [SmartAccountProvider.BICONOMY],
         supportedPaymasterProviders: [PaymasterProvider.BICONOMY],
