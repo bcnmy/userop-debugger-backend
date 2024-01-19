@@ -13,6 +13,7 @@ export interface UserOperation {
     maxPriorityFeePerGas: string;
     paymasterAndData: string;
     signature: string;
+    beneficiary: string;
 }
 
 export interface DecodedUserOp {
