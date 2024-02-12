@@ -26,7 +26,7 @@ supportedNetworks.forEach((networkId: string) => {
         let smartAccountDecoder = new SmartAccountDecoderService({ networkId });
         let paymasterDecoder = new PaymasterDecoderService({ networkId });
         const provider = new ethers.JsonRpcProvider(_networkConfig.providerURL);
-        const entryPointContractInstance : ethers.Contract = new ethers.Contract(_networkConfig.entryPointV6, EntryPointV6ABI, provider);
+        const entryPointContractInstance : ethers.Contract = new ethers.Contract(_networkConfig.entryPointV6, EntryPointV6ABI, provider);  
         userOpDecoderMap.set(networkId, new UserOpDecoderService({
             networkId,
             entryPointContractInstance: entryPointContractInstance,

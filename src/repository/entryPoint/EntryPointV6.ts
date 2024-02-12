@@ -1,6 +1,7 @@
 import { UserOperation } from "../../types";
 import { isPaymasterUsed } from "../../utils";
 import { IEntryPointService } from "./interface/IEntryPointService";
+import { ethers } from "ethers";
 
 export class EntryPointV6 implements IEntryPointService {
    
@@ -55,5 +56,16 @@ export class EntryPointV6 implements IEntryPointService {
             console.debug("Error in getPaymasterAddress:", error);
             throw new Error("Invalid paymasterAndData format provided");
         }
+    }
+
+    //AA93: paymasterAndData.length >= UserOperationLib.PAYMASTER_DATA_OFFSET
+    // AA40: if (mUserOp.verificationGasLimit + mUserOp.paymasterVerificationGasLimit < gasUsed) {
+    //            revert FailedOp(opIndex, "AA40 over verificationGasLimit");
+    //      }
+    unpackPaymasterStaticFields(paymasterAndData: string): [string, bigint, bigint] {
+        let paymasterAddress = ethers.getAddress(paymasterAndData.slice(0, 42));
+        let paymasterVerificationGasLimit = BigInt('0x' + paymasterAndData.slice(42, 66));
+        let paymasterPostOpGasLimit = BigInt('0x' + paymasterAndData.slice(66, 90));
+        return [paymasterAddress, paymasterVerificationGasLimit, paymasterPostOpGasLimit];
     }
 }
