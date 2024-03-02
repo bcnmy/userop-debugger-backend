@@ -7,15 +7,15 @@ export class AA91Decoder implements IErrorDecoder {
         // Extract more information that is related to this error 
         let suggestedActions: string[] = [];
 
-        if (param.userOp.beneficiary) {
+        if (param.beneficiaryAddress) {
             suggestedActions = [
                 `Please check the native balance of entryPoint address: ${param.entryPointAddress} sent in he userOp.`,
-                `It has insufficient balance to pay collected fees to beneficiary address ${param.userOp.beneficiary}.`
+                `It has insufficient balance to pay collected fees to beneficiary address ${param.beneficiaryAddress}.`
             ];
         }
 
         return {
-            message: `Compensate the caller's beneficiary address: ${param.userOp.beneficiary} with the collected fees of all UserOperations`,
+            message: `Compensate the caller's beneficiary address: ${param.beneficiaryAddress} with the collected fees of all UserOperations`,
             errorSource: ErrorSource.ENTRY_POINT,
             suggestions: suggestedActions
         }
