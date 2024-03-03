@@ -15,11 +15,29 @@ export const splitProviderUrls = (providerUrls: string) => {
     }
 }
 
+export const getFallbackProviderTransport = (providerUrls: string[]) : HttpTransport[] => {
+    return providerUrls.map((url) => { return http(url) });
+}
+
+export const getFallbackProviderTransportByNetworkId = (networkId: string) : HttpTransport[] => {
+    const networkConfigEntry = networkConfig[networkId];
+    return networkConfigEntry.providerURLs.map((url) => { return http(url) });
+}
+
+export const getViemPublicClient = (networkId: string) => {
+    const networkConfigEntry = networkConfig[networkId];
+    return createPublicClient({
+        chain: networkConfigEntry.chain,
+        transport: fallback(getFallbackProviderTransportByNetworkId(networkId)),
+    });
+}
+
 // Add all addresses in lowercase
 export const networkConfig: NetworkConfig = {
     "137": {
         entryPointV6: EntryPointV6Address.toLowerCase(),
         providerURLs: splitProviderUrls(process.env.MATIC_RPC_URLs as string),
+        viemPublicClient: getViemPublicClient("137"),
         nativeSymbol: "Matic",
         chain: polygon,
         supportedSAProviders: [SmartAccountProvider.BICONOMY],
@@ -38,19 +56,4 @@ export const networkConfig: NetworkConfig = {
     }
 };
 
-export const getFallbackProviderTransport = (providerUrls: string[]) : HttpTransport[] => {
-    return providerUrls.map((url) => { return http(url) });
-}
 
-export const getFallbackProviderTransportByNetworkId = (networkId: string) : HttpTransport[] => {
-    const networkConfigEntry = networkConfig[networkId];
-    return networkConfigEntry.providerURLs.map((url) => { return http(url) });
-}
-
-export const getViemPublicClient = (networkId: string) => {
-    const networkConfigEntry = networkConfig[networkId];
-    return createPublicClient({
-        chain: networkConfigEntry.chain,
-        transport: fallback(getFallbackProviderTransportByNetworkId(networkId)),
-    });
-}

@@ -1,4 +1,4 @@
-import { Chain } from "viem";
+import { Chain, PublicClient } from "viem";
 import { ModuleConstructor, ModuleInfo } from "./modules";
 import { PaymasterInfo, PaymasterProvider } from "./paymaster";
 import { SmartAccountProvider } from "./smartAccount";
@@ -15,6 +15,7 @@ export type NetworkConfig = {
     [networkId: string]: {
         entryPointV6: string;
         chain: Chain;
+        viemPublicClient: PublicClient;
         providerURLs: string[];
         nativeSymbol: string;
         supportedSAProviders: SmartAccountProvider[];
