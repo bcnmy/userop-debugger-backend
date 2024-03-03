@@ -19,7 +19,7 @@ class DebugUserOpController implements IJsonRpcController {
         try {
             let userOpDecoderService = getUserOpDecoderService(networkId);
             if (userOpDecoderService) {
-                decodedUserOp = await userOpDecoderService.decodeUserOp({ entryPointAddress, userOp: userOperation});
+                decodedUserOp = await userOpDecoderService.decodeUserOp({ entryPointAddress, userOp: userOperation, beneficiaryAddress: ""});
             }
         } catch (error) {
             console.error("Error decoding user operation: ", error);
@@ -36,7 +36,6 @@ class DebugUserOpController implements IJsonRpcController {
                     entryPointAddress,
                     error: errorObject,
                     userOp: userOperation,
-                    entryPointContractInstance: entryPointContractInstance 
                 });
             }
         } catch (error) {

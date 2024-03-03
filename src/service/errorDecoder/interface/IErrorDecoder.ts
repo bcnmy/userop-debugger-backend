@@ -1,5 +1,4 @@
 import { DecodedError, JsonRpcError, UserOperation } from "../../../types";
-import { ethers } from "ethers";
 
 export type ErrorDecoderParams = {
     error: JsonRpcError;
@@ -7,7 +6,6 @@ export type ErrorDecoderParams = {
     beneficiaryAddress: string;
     entryPointAddress: string;
     networkId: string;
-    entryPointContractInstance: ethers.Contract;
 }
 
 export interface IErrorDecoder {
