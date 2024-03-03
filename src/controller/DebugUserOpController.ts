@@ -1,6 +1,6 @@
 import { JsonRpcError } from "../types";
 import { IJsonRpcController } from "./interface/IJsonRpcController";
-import { getErrorDecoderService, getUserOpDecoderService } from "../manager/service-manager";
+import { getErrorDecoderService, getEntryPointContractInstance, getUserOpDecoderService } from "../manager/service-manager";
 class DebugUserOpController implements IJsonRpcController {
 
     async handleParams(networkId: string, params: any[]) {
@@ -19,7 +19,7 @@ class DebugUserOpController implements IJsonRpcController {
         try {
             let userOpDecoderService = getUserOpDecoderService(networkId);
             if (userOpDecoderService) {
-                decodedUserOp = await userOpDecoderService.decodeUserOp({ entryPointAddress, userOp: userOperation });
+                decodedUserOp = await userOpDecoderService.decodeUserOp({ entryPointAddress, userOp: userOperation, beneficiaryAddress: ""});
             }
         } catch (error) {
             console.error("Error decoding user operation: ", error);
@@ -28,12 +28,14 @@ class DebugUserOpController implements IJsonRpcController {
     
         try {
             let errorDecoderService = getErrorDecoderService(networkId);
+            let entryPointContractInstance = getEntryPointContractInstance(networkId);
+           
             if (errorDecoderService) {
                 decodedErrors = await errorDecoderService.decodeError({
                     networkId,
                     entryPointAddress,
                     error: errorObject,
-                    userOp: userOperation
+                    userOp: userOperation,
                 });
             }
         } catch (error) {

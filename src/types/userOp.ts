@@ -13,6 +13,7 @@ export interface UserOperation {
     maxPriorityFeePerGas: string;
     paymasterAndData: string;
     signature: string;
+    beneficiary: string;
 }
 
 export interface DecodedUserOp {
@@ -35,6 +36,7 @@ export interface DecodedError {
 }
 
 export enum ErrorSource {
+    ENTRY_POINT = "ENTRY_POINT",
     SMART_ACCOUNT = "SMART_ACCOUNT",
     PAYMASTER = "PAYMASTER",
     TARGET_CONTRACT = "TARGET_CONTRACT",

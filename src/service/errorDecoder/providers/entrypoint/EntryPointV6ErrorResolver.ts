@@ -1,6 +1,9 @@
 import { IErrorDecoder } from "../../interface/IErrorDecoder";
 import { ErrorResolverParams, IErrorResolver } from "../../interface/IErrorResolver";
 import { AA21Decoder } from "./decoders/AA21Decoder";
+import { AA25Decoder } from "./decoders/AA25Decoder";
+import { AA90Decoder } from "./decoders/AA90Decoder";
+import { AA91Decoder } from "./decoders/AA91Decoder";
 
 export type EPV6ErrorResolverParam = {
     networkId: string;
@@ -21,6 +24,9 @@ export class EntryPointV6ErrorResolver implements IErrorResolver {
     
     private errorDecoderMap: { [code: string]: IErrorDecoder } = {
         'AA21': new AA21Decoder(),
+        'AA25': new AA25Decoder(),
+        'AA90': new AA90Decoder(),
+        'AA91': new AA91Decoder()
         // ... map other error codes to their respective decoder classes
     };
 

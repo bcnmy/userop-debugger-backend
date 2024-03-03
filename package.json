@@ -17,6 +17,7 @@
         "@apollo/client": "^3.8.8",
         "@koalex/koa-json-rpc": "^1.0.3",
         "cross-fetch": "^4.0.0",
+        "ethers": "^6.10.0",
         "graphql": "^16.8.1",
         "koa": "^2.14.2",
         "koa-bodyparser": "^4.4.1",
@@ -28,6 +29,7 @@
         "viem": "^1.20.3"
     },
     "devDependencies": {
+        "@ethersproject/bignumber": "^5.7.0",
         "@types/koa": "^2.13.12",
         "@types/koa-bodyparser": "^4.3.12",
         "@types/koa-joi-router": "^8.0.7",

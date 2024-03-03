@@ -1,7 +1,6 @@
 import { formatEther } from "viem";
 import { networkConfig } from "../../../../../config/network";
-import { EntryPointFactory } from "../../../../../repository/entryPoint/factory";
-import { DecodedError, ErrorSource } from "../../../../../types";
+=import { DecodedError, ErrorSource } from "../../../../../types";
 import { ErrorDecoderParams, IErrorDecoder } from "../../../interface/IErrorDecoder";
 import { trim } from "../../../../../utils";
 
@@ -10,7 +9,7 @@ export class AA21Decoder implements IErrorDecoder {
     async decodeError(param: ErrorDecoderParams): Promise<DecodedError> {
         // TODO: Extract more information that is related to this error eg., the amount of native balance the smart account has
         // and how much is needed to pay for the gas.
-        let epService = EntryPointFactory.getEntryPointService(param.entryPointAddress);
+        let epService = await param.entryPointContractInstance.getEntryPointService(param.entryPointAddress);
         let requiredFunds;
         let symbol, suggestedActions: string[] = [];
         if(epService) {

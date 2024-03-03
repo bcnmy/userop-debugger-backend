@@ -6,22 +6,27 @@ import { ISmartAccountDecoder } from "../smartAccountDecoder/interface/ISmartAcc
 import { DecodeUserOpParam, IUserOpDecoder } from "./interface/IUserOpDecoder";
 import { networkConfig } from "../../config/network";
 import { isPaymasterUsed } from "../../utils";
+import { ethers } from "ethers";
 
 export type UserOpDecoderServiceConfig = {
     networkId: string;
+    entryPointContractInstance: ethers.Contract;
     smartAccountDecoder: ISmartAccountDecoder;
     paymasterDecoder: IPaymasterDecoder;
 }
+
 export class UserOpDecoderService implements IUserOpDecoder {
     
     smartAccountDecoder: ISmartAccountDecoder;
     paymasterDecoder: IPaymasterDecoder;
     networkId: string;
+    entryPointContractInstance: ethers.Contract;
 
     constructor(config: UserOpDecoderServiceConfig) {
         this.smartAccountDecoder = config.smartAccountDecoder;
         this.paymasterDecoder = config.paymasterDecoder;
         this.networkId = config.networkId;
+        this.entryPointContractInstance = config.entryPointContractInstance;
     }
 
     async decodeUserOp(param: DecodeUserOpParam): Promise<DecodedUserOp> {

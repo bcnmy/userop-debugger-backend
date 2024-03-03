@@ -3,6 +3,7 @@ import { DecodedError, JsonRpcError, UserOperation } from "../../../types";
 export type ErrorDecoderParams = {
     error: JsonRpcError;
     userOp: UserOperation;
+    beneficiaryAddress: string;
     entryPointAddress: string;
     networkId: string;
 }
