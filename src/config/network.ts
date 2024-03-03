@@ -3,8 +3,8 @@ import { BiconomySAVersion, SmartAccountProvider } from "../types/smartAccount";
 import { PaymasterProvider } from "../types/paymaster";
 import { EntryPointV6Address } from ".";
 import dotenv from "dotenv";
-import { HttpTransport, createPublicClient, fallback, http } from "viem";
-import {polygon} from "viem/chains"
+import { Chain, HttpTransport, createPublicClient, fallback, http } from "viem";
+import { mainnet, polygon } from "viem/chains"
 dotenv.config();
 
 export const splitProviderUrls = (providerUrls: string) => {
@@ -15,11 +15,11 @@ export const splitProviderUrls = (providerUrls: string) => {
     }
 }
 
-export const getFallbackProviderTransport = (providerUrls: string[]) : HttpTransport[] => {
+export const getFallbackProviderTransport = (providerUrls: string[]): HttpTransport[] => {
     return providerUrls.map((url) => { return http(url) });
 }
 
-export const getFallbackProviderTransportByNetworkId = (networkId: string) : HttpTransport[] => {
+export const getFallbackProviderTransportByNetworkId = (networkId: string): HttpTransport[] => {
     const networkConfigEntry = networkConfig[networkId];
     return networkConfigEntry.providerURLs.map((url) => { return http(url) });
 }
@@ -32,12 +32,22 @@ export const getViemPublicClient = (networkId: string) => {
     });
 }
 
+export enum ChainId {
+    MAINNET = "1",
+    POLYGON = "137"
+}
+
+export const ChainIdViemChainMap: Record<ChainId, Chain> = {
+    [ChainId.POLYGON]: polygon,
+    [ChainId.MAINNET]: mainnet
+}
+
 // Add all addresses in lowercase
 export const networkConfig: NetworkConfig = {
-    "137": {
+    [ChainId.POLYGON]: {
         entryPointV6: EntryPointV6Address.toLowerCase(),
         providerURLs: splitProviderUrls(process.env.MATIC_RPC_URLs as string),
-        viemPublicClient: getViemPublicClient("137"),
+        viemPublicClient: getViemPublicClient(ChainId.POLYGON),
         nativeSymbol: "Matic",
         chain: polygon,
         supportedSAProviders: [SmartAccountProvider.BICONOMY],
